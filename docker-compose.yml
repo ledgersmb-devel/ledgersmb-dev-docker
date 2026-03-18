@@ -18,7 +18,7 @@ services:
       - default
 
   db:
-    image: ghcr.io/ledgersmb/dev-postgres:${LSMB_DEVDB:-latest}
+    image: ghcr.io/ledgersmb-devel/dev-postgres:${LSMB_DEVDB:-latest}
     hostname: db
     container_name: ${COMPOSE_PROJECT_NAME}_db
     environment:
@@ -38,7 +38,7 @@ services:
       - selenium
       - mailhog
     user: "${USER}"
-    image: ${LSMB_IMAGE:-ghcr.io/ledgersmb/dev-ledgersmb}
+    image: ${LSMB_IMAGE:-ghcr.io/ledgersmb-devel/dev-ledgersmb}
     hostname: lsmb
     container_name: ${COMPOSE_PROJECT_NAME}_lsmb
     links:
@@ -85,7 +85,7 @@ services:
       - grid
 
   proxy:
-    image: ghcr.io/ledgersmb/dev-nginx
+    image: ghcr.io/ledgersmb-devel/dev-nginx
     hostname: ${COMPOSE_PROJECT_NAME}_proxy
     container_name: ${COMPOSE_PROJECT_NAME}_proxy
     depends_on:
