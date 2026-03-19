@@ -27,11 +27,11 @@ LedgerSMB. This script should work with any linux distribution that has `docker`
 These prerequisites can generally be met using the following on Ubuntu:
 
 ```sh
-sudo apt-get -y install make git curl gnupg ca-certificates lsb-release
+sudo apt-get -y install make git curl gnupg ca-certificates lsb-release yq
 
 # If the following fails, see the instructions at
 # https://docs.docker.com/engine/install
-sudo apt-get -y install docker-ce docker-ce-cli containerd.io docker-compose
+sudo apt-get -y install docker-buildx docker-compose-v2
 
 # Add the current user to the 'docker' group
 sudo usermod -a -G docker $USER
@@ -58,20 +58,26 @@ set -e -x
 # Not for use in Production.
 
 # Clone the LedgerSMB development docker master repository
-git clone https://github.com/ledgersmb/ledgersmb-dev-docker.git ldd
+git clone https://github.com/ledgersmb-devel/ledgersmb-dev-docker.git ldd
 
 # Clone the LedgerSMB git master repository
 git clone https://github.com/ledgersmb/LedgerSMB.git
 
 cd LedgerSMB
 
-# Set up LedgerSMB configuration for development
-cp doc/conf/ledgersmb.conf.default ledgersmb.conf
+# YAML configuration (example, your config may vary)
+cp LedgerSMB/doc/conf/ledgersmb.yaml LedgerSMB/ledgersmb.yaml
+# yq -i '.db.connect_data.hostaddr = "192.168.1.218"' LedgerSMB/ledgersmb.yaml
+# yq -i '.db.connect_data.port = 5001' LedgerSMB/ledgersmb.yaml
+# yq -i '.db.connect_data.dbname = "postgres"' LedgerSMB/ledgersmb.yaml
+# yq -i '.db.connect_data.user = "postgres"' LedgerSMB/ledgersmb.yaml
+# yq -i '.db.connect_data.password = "abc"' LedgerSMB/ledgersmb.yaml
+# yq -i '.cookie.name = "LedgerSMB-<version>"' LedgerSMB/ledgersmb.yaml
 
-# db_namespace must be set to xyz in order for tests to run
-sed -i -e 's/db_namespace = public/db_namespace = xyz/' ledgersmb.conf
+# Use the xyz schema in order for tests to run
+# #yq -i '.db.schema = "xyz"' LedgerSMB/ledgersmb.yaml
 
-sed -i -e 's/host = localhost/host = postgres/' ledgersmb.conf
+yq e '.logging.level = "TRACE"' -i LedgerSMB/ledgersmb.yaml 
 
 # Start the docker containers
 ../ldd/lsmb-dev master pull
