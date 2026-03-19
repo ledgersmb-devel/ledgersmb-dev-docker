@@ -32,7 +32,6 @@ sudo apt-get -y install make git curl gnupg ca-certificates lsb-release yq
 # If the following fails, see the instructions at
 # https://docs.docker.com/engine/install
 sudo apt-get -y install docker-buildx docker-compose-v2
-# sudo apt-get -y install docker-ce docker-ce-cli containerd.io docker-compose
 
 # Add the current user to the 'docker' group
 sudo usermod -a -G docker $USER
@@ -75,7 +74,7 @@ cp LedgerSMB/doc/conf/ledgersmb.yaml LedgerSMB/ledgersmb.yaml
 # yq -i '.db.connect_data.password = "abc"' LedgerSMB/ledgersmb.yaml
 # yq -i '.cookie.name = "LedgerSMB-<version>"' LedgerSMB/ledgersmb.yaml
 
-# Use the xyz namespace for testing
+# Use the xyz schema in order for tests to run
 # #yq -i '.db.schema = "xyz"' LedgerSMB/ledgersmb.yaml
 
 yq e '.logging.level = "TRACE"' -i LedgerSMB/ledgersmb.yaml 
