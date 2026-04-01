@@ -63,31 +63,47 @@ git clone https://github.com/ledgersmb-devel/ledgersmb-dev-docker.git ldd
 # Clone the LedgerSMB git master repository
 git clone https://github.com/ledgersmb/LedgerSMB.git
 
+# Switch to the cloned directory
 cd LedgerSMB
 
-# YAML configuration (example, your config may vary)
-cp LedgerSMB/doc/conf/ledgersmb.yaml LedgerSMB/ledgersmb.yaml
+# Copy the default configuration file for use
+cp doc/conf/ledgersmb.yaml ledgersmb.yaml
+
+# Review and if needed, manually edit the config file ledgersmb.yaml just copied.
+# The default config should run as-is, but with random ports. You can use the
+# following script commands to edit the file. The following example also shows
+# some wettings you might want to edit, however the comments in the `yaml` file
+# are pretty good.
+
+# YAML example configuration via script (your config may vary)
+# 
+# The following were tested with yq (https://github.com/mikefarah/yq/) version v4.45.1
+# Your distribution's version may be too old. If so, after removing the 
+# distribution's version, follow the installation instructions at github.
+#
 # yq -i '.db.connect_data.hostaddr = "192.168.1.218"' LedgerSMB/ledgersmb.yaml
 # yq -i '.db.connect_data.port = 5001' LedgerSMB/ledgersmb.yaml
 # yq -i '.db.connect_data.dbname = "postgres"' LedgerSMB/ledgersmb.yaml
 # yq -i '.db.connect_data.user = "postgres"' LedgerSMB/ledgersmb.yaml
 # yq -i '.db.connect_data.password = "abc"' LedgerSMB/ledgersmb.yaml
 # yq -i '.cookie.name = "LedgerSMB-<version>"' LedgerSMB/ledgersmb.yaml
-
+#
 # Use the xyz schema in order for tests to run
-# #yq -i '.db.schema = "xyz"' LedgerSMB/ledgersmb.yaml
-
-yq e '.logging.level = "TRACE"' -i LedgerSMB/ledgersmb.yaml 
+# yq -i '.db.schema = "xyz"' LedgerSMB/ledgersmb.yaml
+#
+# Change logging level from ERROR to TRACE
+# yq e '.logging.level = "TRACE"' -i LedgerSMB/ledgersmb.yaml 
 
 # Start the docker containers
 ../ldd/lsmb-dev master pull
 ../ldd/lsmb-dev master up -d
 
 # Make the runtime javascript (see options below)
-make jsdev # With VUE debugger enabled
+# make jsdev # With VUE debugger enabled
+make js  # Without VUE debugger enable
 
 # Run the tests (see options below)
-make devtest       # Single process
+# make devtest       # Single process
 ```
 
 Note that this Quick Start script is meant to be run from a new user directory and if run a second time in the same directory will error out.
