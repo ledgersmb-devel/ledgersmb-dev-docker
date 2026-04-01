@@ -72,7 +72,7 @@ cp doc/conf/ledgersmb.yaml ledgersmb.yaml
 # Review and if needed, manually edit the config file ledgersmb.yaml just copied.
 # The default config should run as-is, but with random ports. You can use the
 # following script commands to edit the file. The following example also shows
-# some wettings you might want to edit, however the comments in the `yaml` file
+# some settings you might want to edit, however the comments in the `yaml` file
 # are pretty good.
 
 # YAML example configuration via script (your config may vary)
