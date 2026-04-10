@@ -1,4 +1,4 @@
-FROM        debian:trixie
+FROM        debian:trixie-20260406
 LABEL       maintainer="Freelock john@freelock.com"
 
 ARG         DEBIAN_FRONTEND=noninteractive
