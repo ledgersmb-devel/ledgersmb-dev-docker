@@ -14,10 +14,11 @@ aggressive database performance optimizations to help speed up testing.
 
 The ledgersmb-dev-lsmb container holds everything required to run and
 test LedgerSMB. This container currently supports versions 1.6, 1.7,
-1.8, 1.9 and master -- the image gets updated regularly to include dependencies
-for specific feature branches.
+1.8, 1.9, 1.10, 1.11, 1.12, 1.13 and master -- the image gets updated 
+regularly to include dependencies for specific feature branches.
 
-❌ Do not use unofficial or AI-generated Docker Compose examples. These are often incomplete, break silently, or skip required services.
+❌ Do not use unofficial or AI-generated Docker Compose examples. 
+These are often incomplete, break silently, or skip required services.
 
 ## Quick Start Prerequisites
 
@@ -27,7 +28,9 @@ LedgerSMB. This script should work with any linux distribution that has `docker`
 These prerequisites can generally be met using the following on Ubuntu:
 
 ```sh
-sudo apt-get -y install make git curl gnupg ca-certificates lsb-release yq
+sudo apt-get -y update
+sudo apt-get -y upgrade
+sudo apt-get -y install make git curl gnupg ca-certificates lsb-release
 
 # If the following fails, see the instructions at
 # https://docs.docker.com/engine/install
@@ -35,6 +38,10 @@ sudo apt-get -y install docker-buildx docker-compose-v2
 
 # Add the current user to the 'docker' group
 sudo usermod -a -G docker $USER
+
+# Logout and login to make the docker user active in the docker group
+# and assure the server is up to date.
+sudo reboot
 ```
 
 ## Quick Start (from scratch)
@@ -49,7 +56,7 @@ The Quick Start script only works after commit fdbc05543751ec5fa560587dcafd9cdb0
 
 Details about each step appear below the script.
 
-This Quick Start shell script has been tested on Ubuntu 22.04, Debian 11.4, and Fedora 36.  Although we had several problems getting Fedora and Docker to cooperate.
+This Quick Start shell script has been tested on Ubuntu 24.04.4, Debian 11.4, and Fedora 36.  Although we had several problems getting Fedora and Docker to cooperate.
 
 ```sh
 #!/bin/bash
@@ -79,7 +86,7 @@ cp doc/conf/ledgersmb.yaml ledgersmb.yaml
 # 
 # The following were tested with yq (https://github.com/mikefarah/yq/) version v4.45.1
 # Your distribution's version may be too old. If so, after removing the 
-# distribution's version, follow the installation instructions at github.
+# distribution's version, follow the installation instructions at the yq URL.
 #
 # yq -i '.db.connect_data.hostaddr = "192.168.1.218"' LedgerSMB/ledgersmb.yaml
 # yq -i '.db.connect_data.port = 5001' LedgerSMB/ledgersmb.yaml
@@ -94,8 +101,10 @@ cp doc/conf/ledgersmb.yaml ledgersmb.yaml
 # Change logging level from ERROR to TRACE
 # yq e '.logging.level = "TRACE"' -i LedgerSMB/ledgersmb.yaml 
 
-# Start the docker containers
+# Create the docker containers
 ../ldd/lsmb-dev master pull
+
+# Start the docker containers
 ../ldd/lsmb-dev master up -d
 
 # Make the runtime javascript (see options below)
