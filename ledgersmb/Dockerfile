@@ -79,7 +79,7 @@ RUN set -x ; \
   (echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list) && \
   apt-get update && \
   apt-get -y install -t nodistro nodejs && \
-  npm install -g corepack \
+  npm install -g corepack && \
   corepack enable
 
 # Including postgresql-autodoc in the above total lump didn't work;
