@@ -1,15 +1,12 @@
 services:
 
   chrome:
-    image: selenium/node-chrome:3
+    image: selenium/node-chrome:4
     depends_on:
       - selenium
     volumes:
       - /dev/shm:/dev/shm
     environment:
-      - HUB_HOST=selenium
-      - NODE_MAX_SESSION=5
-      - NODE_MAX_INSTANCES=5
-      - GRID_DEBUG=true
+      - SE_EVENT_BUS_HOST=selenium
     networks:
       - grid

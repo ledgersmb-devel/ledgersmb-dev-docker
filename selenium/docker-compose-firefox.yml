@@ -1,15 +1,12 @@
 services:
 
   firefox:
-    image: selenium/node-firefox:3
+    image: selenium/node-firefox:4
     volumes:
       - /dev/shm:/dev/shm
     depends_on:
       - selenium
     environment:
-      - HUB_HOST=selenium
-      - NODE_MAX_SESSION=5
-      - NODE_MAX_INSTANCES=5
-      - GRID_DEBUG=true
+      SE_EVENT_BUS_HOST: selenium
     networks:
       - grid
